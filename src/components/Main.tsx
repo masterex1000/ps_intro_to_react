@@ -33,12 +33,15 @@ END OF TERMS AND CONDITIONS
 
 
 import { useState, useEffect } from "react";
-import { Stack, Paper, Typography, styled } from "@mui/material";
+import { Stack, Paper, Typography, styled, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
 import { UseDeckMap } from "../hooks/UseDeckMap";
 import { UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
 import { Button } from "@mui/material";
 import ExampleLineChart from "./ExampleLineChart";
+
+import States from "../library/state_data.json";
+import Counties from "../library/county_data.json";
 
 interface MainProps {
     title: string
@@ -52,14 +55,12 @@ export default function Main({ title }: MainProps) {
     const [selectedState, setSelectedState] = useState('');
     const [countyList, setCountyList] = useState([]);
 
-
     useEffect(() => {
         /**
          * Get the list of associated counties
          * Call to setCountyList() with the list of associated counties
          */
     }, [selectedState]);
-
 
     /**
      * This is the function that connects to the online API and retrieves information associated
@@ -72,10 +73,10 @@ export default function Main({ title }: MainProps) {
      * 
      * We'll talk about what this function is doing during the meeting.
      */
-    const sendCoordinatesRequest = async() => {
+    const sendCoordinatesRequest = async () => {
         const response = await Api.functions.sendRequest('Larimer', 'Colorado');
         if (response) {
-            console.log({response});
+            console.log({ response });
         }
         else console.log('Error sending API request');
     }
@@ -83,7 +84,7 @@ export default function Main({ title }: MainProps) {
     return (
         <>
             <DeckMap Map={Map} />
-            <Stack direction='column' alignItems='center'>
+            <Stack direction='column' alignItems='left'>
                 <StyledPaper elevation={3}>
                     <Stack direction='column' alignItems='center' spacing={2}>
                         <Typography align='center'>Title: {title}</Typography>
@@ -94,10 +95,34 @@ export default function Main({ title }: MainProps) {
                 {/* <Paper className={classes.root} elevation={3}>
                     <ExampleLineChart/>
                 </Paper> */}
+                <StyledPaper elevation={3}>
+                    <StateList stateList={States}></StateList>
+                </StyledPaper>
             </Stack>
         </>
     );
 
+}
+
+function StateList({ stateList }) {
+    return (
+        <List
+            sx={{
+                width: '100%',
+                // maxWidth: 360,
+                bgColor: 'background.paper',
+                position: 'relative',
+                overflow: 'auto',
+                maxHeight: 300,
+                '& ul': { padding: 0 }
+            }}>
+            {stateList.map((state) => (
+                <ListItemButton >
+                    <ListItemText primary={state.name}></ListItemText>
+                </ListItemButton>
+            ))}
+        </List>
+    );
 }
 
 const StyledPaper = styled(Paper)({
@@ -105,6 +130,6 @@ const StyledPaper = styled(Paper)({
     margin: '10px',
     padding: '10px',
     zIndex: 5000,
-    opacity: 0.8
+    opacity: 1
 })
 
