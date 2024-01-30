@@ -39,6 +39,7 @@ import { UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
 import { Button } from "@mui/material";
 import ExampleLineChart from "./ExampleLineChart";
+import StateList from "./StateList";
 
 import States from "../library/state_data.json";
 import Counties from "../library/county_data.json";
@@ -47,19 +48,42 @@ interface MainProps {
     title: string
 }
 
+interface CountyRecord {
+    name: string,
+    GISJOIN: string
+}
+
 export default function Main({ title }: MainProps) {
 
     const Map = UseDeckMap();
     const Api = UseApi();
 
     const [selectedState, setSelectedState] = useState('');
-    const [countyList, setCountyList] = useState([]);
+    const [countyList, setCountyList] = useState<CountyRecord[]>([]);
 
     useEffect(() => {
         /**
          * Get the list of associated counties
          * Call to setCountyList() with the list of associated counties
          */
+        
+        // TODO: Probably pre-compute the state and county lookup lists
+        
+        const stateRecord = States.find((state) => state.name.localeCompare(selectedState) == 0);
+
+        if(!stateRecord) {
+            setCountyList([]);
+            return;
+        }
+
+        const countyList = Counties.filter((state) => {
+            return state.GISJOIN.startsWith(stateRecord.GISJOIN);
+        });
+
+        console.log(countyList);
+
+        setCountyList(countyList);
+
     }, [selectedState]);
 
     /**
@@ -83,7 +107,6 @@ export default function Main({ title }: MainProps) {
 
     return (
         <>
-            <DeckMap Map={Map} />
             <Stack direction='column' alignItems='left'>
                 <StyledPaper elevation={3}>
                     <Stack direction='column' alignItems='center' spacing={2}>
@@ -96,33 +119,14 @@ export default function Main({ title }: MainProps) {
                     <ExampleLineChart/>
                 </Paper> */}
                 <StyledPaper elevation={3}>
-                    <StateList stateList={States}></StateList>
+                    <StateList stateList={States} setSelectedState={setSelectedState}></StateList>
                 </StyledPaper>
             </Stack>
+            <DeckMap Map={Map} />
+
         </>
     );
 
-}
-
-function StateList({ stateList }) {
-    return (
-        <List
-            sx={{
-                width: '100%',
-                // maxWidth: 360,
-                bgColor: 'background.paper',
-                position: 'relative',
-                overflow: 'auto',
-                maxHeight: 300,
-                '& ul': { padding: 0 }
-            }}>
-            {stateList.map((state) => (
-                <ListItemButton >
-                    <ListItemText primary={state.name}></ListItemText>
-                </ListItemButton>
-            ))}
-        </List>
-    );
 }
 
 const StyledPaper = styled(Paper)({
@@ -131,5 +135,4 @@ const StyledPaper = styled(Paper)({
     padding: '10px',
     zIndex: 5000,
     opacity: 1
-})
-
+});

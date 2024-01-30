@@ -47,8 +47,11 @@ export default function DeckMap({Map}: DeckMapProps) {
     return (
         <>
             <DeckGL
-                viewState={Map.state.mapViewState}
-                onViewStateChange={({viewState}) => Map.functions.setMapViewState(viewState as ViewState)}
+                initialViewState={Map.state.mapViewState}   // Using a hook like below forces react
+                                                            // to re-render every frame, which is very slow
+                                                            // instead we can use the map api to do everything
+                // viewState={Map.state.mapViewState}
+                // onViewStateChange={({viewState}) => Map.functions.setMapViewState(viewState as ViewState)}
                 controller={true}
                 layers={[]}
               >
