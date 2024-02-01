@@ -4,7 +4,7 @@ import Main from "./Main";
 
 export default function App() {
 
-    const message = 'Blank Starting Page';
+    const message = 'Urban Sustain Intro Project';
 
     return (
         <div>

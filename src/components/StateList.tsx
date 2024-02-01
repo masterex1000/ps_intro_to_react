@@ -1,12 +1,9 @@
 import { List, ListItemButton, ListItemText } from "@mui/material";
+import { StateRecord } from "../library/DataSources";
 
-interface StateData {
-    name : string,
-    GISJOIN : string
-};
 
 interface StateListProps {
-    stateList : StateData[],
+    stateList : StateRecord[],
     setSelectedState : (name : string) => void
 };
 

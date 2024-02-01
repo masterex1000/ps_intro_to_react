@@ -33,7 +33,7 @@ END OF TERMS AND CONDITIONS
 
 
 import { useState, useEffect } from "react";
-import { Stack, Paper, Typography, styled, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
+import { Stack, Paper, Typography, styled, List, ListItem, ListItemText, ListItemButton, Drawer } from "@mui/material";
 import { UseDeckMap } from "../hooks/UseDeckMap";
 import { UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
@@ -41,16 +41,11 @@ import { Button } from "@mui/material";
 import ExampleLineChart from "./ExampleLineChart";
 import StateList from "./StateList";
 
-import States from "../library/state_data.json";
-import Counties from "../library/county_data.json";
+import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
+import CountyList from "./CountyList.tsx";
 
 interface MainProps {
     title: string
-}
-
-interface CountyRecord {
-    name: string,
-    GISJOIN: string
 }
 
 export default function Main({ title }: MainProps) {
@@ -69,18 +64,16 @@ export default function Main({ title }: MainProps) {
         
         // TODO: Probably pre-compute the state and county lookup lists
         
-        const stateRecord = States.find((state) => state.name.localeCompare(selectedState) == 0);
+        const stateRecord = StateData.find((state) => state.name.localeCompare(selectedState) == 0);
 
         if(!stateRecord) {
             setCountyList([]);
             return;
         }
 
-        const countyList = Counties.filter((state) => {
+        const countyList = CountyData.filter((state) => {
             return state.GISJOIN.startsWith(stateRecord.GISJOIN);
         });
-
-        console.log(countyList);
 
         setCountyList(countyList);
 
@@ -107,6 +100,7 @@ export default function Main({ title }: MainProps) {
 
     return (
         <>
+            <DeckMap Map={Map} />
             <Stack direction='column' alignItems='left'>
                 <StyledPaper elevation={3}>
                     <Stack direction='column' alignItems='center' spacing={2}>
@@ -119,11 +113,12 @@ export default function Main({ title }: MainProps) {
                     <ExampleLineChart/>
                 </Paper> */}
                 <StyledPaper elevation={3}>
-                    <StateList stateList={States} setSelectedState={setSelectedState}></StateList>
+                    <StateList stateList={StateData} setSelectedState={setSelectedState}></StateList>
+                </StyledPaper>
+                <StyledPaper elevation={3}>
+                    <CountyList counties={countyList}></CountyList>
                 </StyledPaper>
             </Stack>
-            <DeckMap Map={Map} />
-
         </>
     );
 
