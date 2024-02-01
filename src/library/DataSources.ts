@@ -14,7 +14,7 @@ export interface CountyRecord {
 // Quick and easy place to generate pre-process data
 var StateData : StateRecord[] = States.sort((a, b) => a.name.localeCompare(b.name));
 
-// Note: realistically this should be exposed as some sort of hashmap to make lookups faster
+// Note: realistically this should be exposed as some sort of map to make lookups faster
 var CountyData : CountyRecord[] = Counties;
 
 export {
