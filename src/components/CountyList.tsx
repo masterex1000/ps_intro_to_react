@@ -3,10 +3,11 @@ import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
 import { useEffect, useState } from "react";
 
 interface CountyListProps {
-    counties: CountyRecord[]
+    counties: CountyRecord[],
+    onSelectCounty : (name : string) => void
 };
 
-export default function CountyList({ counties }: CountyListProps) {
+export default function CountyList({ counties, onSelectCounty }: CountyListProps) {
 
     const [countySearch, setCountySearch] = useState("");
     const [filteredCounties, setFilteredCounties] = useState([] as CountyRecord[]);
@@ -31,6 +32,13 @@ export default function CountyList({ counties }: CountyListProps) {
     useEffect(() => {
         setCountySearch(""); // Clear search on new county list
     }, [counties]);
+
+    const handleCountyClick = (
+        _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        name : string,
+    ) => {
+        onSelectCounty(name);
+    };
 
     return (
         <>
@@ -59,7 +67,7 @@ export default function CountyList({ counties }: CountyListProps) {
                         '& ul': { padding: 0 }
                     }}>
                     {filteredCounties.map((county) => (
-                        <ListItemButton key={county.name}>
+                        <ListItemButton key={county.name} onClick={(event) => handleCountyClick(event, county.name)}>
                             <ListItemText primary={county.name}></ListItemText>
                         </ListItemButton>
                     ))}

@@ -90,5 +90,4 @@ export const UseDeckMap = (): DeckMapHook => {
 
     // Return
     return { state, functions };
-
 }

@@ -33,10 +33,11 @@ END OF TERMS AND CONDITIONS
 
 
 import { useState, useEffect } from "react";
-import { Stack, Paper, Typography, styled, List, ListItem, ListItemText, ListItemButton, Drawer } from "@mui/material";
+import { Stack, Paper, Typography, styled} from "@mui/material";
 import { UseDeckMap } from "../hooks/UseDeckMap";
-import { UseApi } from "../hooks/UseApi";
+import { GeolookupObject, UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
+import { FlyToInterpolator } from '@deck.gl/core/typed';
 import { Button } from "@mui/material";
 import ExampleLineChart from "./ExampleLineChart";
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
@@ -97,6 +98,34 @@ export default function Main({ title }: MainProps) {
         else console.log('Error sending API request');
     }
 
+    const handleCountySelection = async (name : string) => {
+        const response = await Api.functions.sendRequest(name, selectedState);
+
+        if(response) {
+
+            const results : GeolookupObject[] = response.results;
+
+            const highestConfidence = results.reduce(
+                (accumulator, current) => accumulator.confidence >= current.confidence ? accumulator : current
+            )
+
+            // console.log(highestConfidence);
+
+            const newViewState = {
+                longitude: highestConfidence.geometry.lng,
+                latitude: highestConfidence.geometry.lat,
+                zoom: 10,
+                pitch: 30,
+                bearing: 0,
+                transitionDuration: 500,
+                transitionInterpolator: new FlyToInterpolator()
+            };
+    
+            Map.functions.setMapViewState(newViewState);
+        } else 
+            console.log('Error sending API request');
+    };
+
     return (
         <>
             <DeckMap Map={Map} />
@@ -115,7 +144,7 @@ export default function Main({ title }: MainProps) {
                     <StateList stateList={StateData} setSelectedState={setSelectedState}></StateList>
                 </StyledPaper>
                 <StyledPaper elevation={3}>
-                    <CountyList counties={countyList}></CountyList>
+                    <CountyList counties={countyList} onSelectCounty={(county) => handleCountySelection(county)}></CountyList>
                 </StyledPaper>
             </Stack>
         </>

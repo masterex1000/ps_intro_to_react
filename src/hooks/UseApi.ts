@@ -32,13 +32,24 @@ END OF TERMS AND CONDITIONS
 */
 
 
-export const UseApi = () => {
+export interface GeoLookupResponseCoord {
+    lat : number,
+    lng : number
+};
 
+export interface GeolookupObject {
+    formatted : string,
+    confidence : number,
+    geometry : GeoLookupResponseCoord
+};
+
+export const UseApi = () => {
 
     const sendRequest = async(state: string, county: string) => {
         
         const API_KEY = 'bcab9f4b97ee4fec8bade876b485bd5c';
-        const endpoint = `https://api.opencagedata.com/geocode/v1/json?q=${county} County, ${state}, United States&key=${API_KEY}`;
+        // const endpoint = `https://api.opencagedata.com/geocode/v1/json?q=, ${county} County, ${state}, United States&key=${API_KEY}`;
+        const endpoint = `https://api.opencagedata.com/geocode/v1/json?q=${county},${state},United+States+of+America&key=${API_KEY}`;
         
         const promise = await fetch(endpoint);
 

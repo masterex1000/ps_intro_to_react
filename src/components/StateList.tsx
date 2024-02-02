@@ -13,7 +13,7 @@ export default function StateList({ stateList, setSelectedState } : StateListPro
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
     const handleListItemClick = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
     ) => {
         if(selectedIndex === index) {
