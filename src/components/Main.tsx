@@ -43,6 +43,7 @@ import ExampleLineChart from "./ExampleLineChart";
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
 import CountyList from "./CountyList.tsx";
 import StateList from "./StateList";
+import ChartsModal from "./ChartsModal.tsx";
 
 interface MainProps {
     title: string
@@ -53,6 +54,7 @@ export default function Main({ title }: MainProps) {
     const Map = UseDeckMap();
     const Api = UseApi();
 
+    const [modalOpen, setModalOpen] = useState(false);
     const [selectedState, setSelectedState] = useState('');
     const [countyList, setCountyList] = useState<CountyRecord[]>([]);
 
@@ -98,6 +100,9 @@ export default function Main({ title }: MainProps) {
         else console.log('Error sending API request');
     }
 
+    const handleOpenChartModal = () => setModalOpen(true);
+    const handleCloseChartModal = () => setModalOpen(false);
+
     const handleCountySelection = async (name : string) => {
         const response = await Api.functions.sendRequest(name, selectedState);
 
@@ -133,7 +138,7 @@ export default function Main({ title }: MainProps) {
                 <StyledPaper elevation={3}>
                     <Stack direction='column' alignItems='center' spacing={2}>
                         <Typography align='center'>Title: {title}</Typography>
-                        <Button onClick={sendCoordinatesRequest} variant='outlined'>Send Request</Button>
+                        <Button onClick={() => handleOpenChartModal()} variant='outlined'>View Charts</Button>
                     </Stack>
                 </StyledPaper>
                 {/* Uncomment below to see a chart example */}
@@ -147,6 +152,7 @@ export default function Main({ title }: MainProps) {
                     <CountyList counties={countyList} onSelectCounty={(county) => handleCountySelection(county)}></CountyList>
                 </StyledPaper>
             </Stack>
+            <ChartsModal open={modalOpen} onClose={() => handleCloseChartModal()}></ChartsModal>
         </>
     );
 
