@@ -1,30 +1,30 @@
-import { List, ListItemButton, ListItemText } from "@mui/material";
-import { StateRecord } from "../library/DataSources";
-import React from "react";
+import { List, ListItemButton, ListItemText } from "@mui/material"
+import { StateRecord } from "../library/DataSources"
+import React from "react"
 
 
 interface StateListProps {
-    stateList : StateRecord[],
-    setSelectedState : (name : string) => void
+    stateList: StateRecord[],
+    setSelectedState: (name: string) => void
 };
 
-export default function StateList({ stateList, setSelectedState } : StateListProps ) {
+export default function StateList({ stateList, setSelectedState }: StateListProps) {
 
-    const [selectedIndex, setSelectedIndex] = React.useState(-1);
+    const [selectedIndex, setSelectedIndex] = React.useState(-1)
 
     const handleListItemClick = (
         _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
     ) => {
-        if(selectedIndex === index) {
-            setSelectedIndex(-1);
-            setSelectedState("");
-            return;
+        if (selectedIndex === index) {
+            setSelectedIndex(-1)
+            setSelectedState("")
+            return
         }
 
-        setSelectedIndex(index);
-        setSelectedState(stateList[index].name);
-    };
+        setSelectedIndex(index)
+        setSelectedState(stateList[index].name)
+    }
 
     return (
         <List
@@ -39,13 +39,13 @@ export default function StateList({ stateList, setSelectedState } : StateListPro
             }}>
             {stateList.map((state, index) => (
                 <ListItemButton
-                    key={state.name} 
-                    selected={selectedIndex === index} 
+                    key={state.name}
+                    selected={selectedIndex === index}
                     onClick={(event) => handleListItemClick(event, index)}>
 
                     <ListItemText primary={state.name}></ListItemText>
                 </ListItemButton>
             ))}
         </List>
-    );
+    )
 }

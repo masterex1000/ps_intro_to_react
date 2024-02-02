@@ -32,11 +32,11 @@ END OF TERMS AND CONDITIONS
 */
 
 
-import DeckGL from '@deck.gl/react/typed';
-import ReactMapGL from 'react-map-gl';
-import { BASEMAP } from '@deck.gl/carto/typed';
-import { DeckMapHook } from '../hooks/UseDeckMap';
-import MapLibreGL from 'maplibre-gl';
+import DeckGL from '@deck.gl/react/typed'
+import ReactMapGL from 'react-map-gl'
+import { BASEMAP } from '@deck.gl/carto/typed'
+import { DeckMapHook } from '../hooks/UseDeckMap'
+import MapLibreGL from 'maplibre-gl'
 
 interface DeckMapProps {
     Map: DeckMapHook
@@ -58,5 +58,5 @@ export default function DeckMap({Map}: DeckMapProps) {
                 />
             </DeckGL>
         </>
-    );
+    )
 }

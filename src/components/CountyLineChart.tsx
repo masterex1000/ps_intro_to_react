@@ -1,7 +1,7 @@
-import { ResponsiveContainer, LineChart, CartesianGrid, Legend, Line, Tooltip, XAxis, YAxis } from 'recharts';
-import { CountyData } from '../library/DataSources';
+import { ResponsiveContainer, LineChart, CartesianGrid, Legend, Line, Tooltip, XAxis, YAxis } from 'recharts'
+import { CountyData } from '../library/DataSources'
 
-const data = generateLetterChartData();
+const data = generateLetterChartData()
 
 export default function CountyLineChart() {
 
@@ -27,20 +27,19 @@ export default function CountyLineChart() {
 
             </LineChart>
         </ResponsiveContainer >
-    );
+    )
 }
 
 
 function generateLetterChartData() {
-    let data = [];
+    const data = []
 
-
-    for (let county of CountyData) {
+    for (const county of CountyData) {
         data.push({
             name: county.name,
             length: county.name.length,
-        });
+        })
     }
 
-    return data;
+    return data
 }

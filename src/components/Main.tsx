@@ -32,17 +32,17 @@ END OF TERMS AND CONDITIONS
 */
 
 
-import { useState, useEffect } from "react";
-import { Stack, Paper, Typography, styled} from "@mui/material";
-import { UseDeckMap } from "../hooks/UseDeckMap";
-import { GeolookupObject, UseApi } from "../hooks/UseApi";
-import DeckMap from "./DeckMap";
-import { FlyToInterpolator } from '@deck.gl/core/typed';
-import { Button } from "@mui/material";
+import { useState, useEffect } from "react"
+import { Stack, Paper, Typography, styled } from "@mui/material"
+import { UseDeckMap } from "../hooks/UseDeckMap"
+import { GeolookupObject, UseApi } from "../hooks/UseApi"
+import DeckMap from "./DeckMap"
+import { FlyToInterpolator } from '@deck.gl/core/typed'
+import { Button } from "@mui/material"
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
-import CountyList from "./CountyList.tsx";
-import StateList from "./StateList";
-import ChartsModal from "./ChartsModal.tsx";
+import CountyList from "./CountyList.tsx"
+import StateList from "./StateList"
+import ChartsModal from "./ChartsModal.tsx"
 
 interface MainProps {
     title: string
@@ -50,43 +50,43 @@ interface MainProps {
 
 export default function Main({ title }: MainProps) {
 
-    const Map = UseDeckMap();
-    const Api = UseApi();
+    const Map = UseDeckMap()
+    const Api = UseApi()
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedState, setSelectedState] = useState('');
-    const [countyList, setCountyList] = useState<CountyRecord[]>([]);
+    const [modalOpen, setModalOpen] = useState(false)
+    const [selectedState, setSelectedState] = useState('')
+    const [countyList, setCountyList] = useState<CountyRecord[]>([])
 
     useEffect(() => {
         /**
          * Get the list of associated counties
          * Call to setCountyList() with the list of associated counties
          */
-        
-        const stateRecord = StateData.find((state) => state.name.localeCompare(selectedState) == 0);
 
-        if(!stateRecord) {
-            setCountyList([]);
-            return;
+        const stateRecord = StateData.find((state) => state.name.localeCompare(selectedState) == 0)
+
+        if (!stateRecord) {
+            setCountyList([])
+            return
         }
 
         const countyList = CountyData.filter((state) => {
-            return state.GISJOIN.startsWith(stateRecord.GISJOIN);
-        });
+            return state.GISJOIN.startsWith(stateRecord.GISJOIN)
+        })
 
-        setCountyList(countyList);
+        setCountyList(countyList)
 
-    }, [selectedState]);
+    }, [selectedState])
 
-    const handleOpenChartModal = () => setModalOpen(true);
-    const handleCloseChartModal = () => setModalOpen(false);
+    const handleOpenChartModal = () => setModalOpen(true)
+    const handleCloseChartModal = () => setModalOpen(false)
 
-    const handleCountySelection = async (name : string) => {
-        const response = await Api.functions.sendRequest(name, selectedState);
+    const handleCountySelection = async (name: string) => {
+        const response = await Api.functions.sendRequest(name, selectedState)
 
-        if(response) {
+        if (response) {
 
-            const results : GeolookupObject[] = response.results;
+            const results: GeolookupObject[] = response.results
 
             const highestConfidence = results.reduce(
                 (accumulator, current) => accumulator.confidence >= current.confidence ? accumulator : current
@@ -100,12 +100,12 @@ export default function Main({ title }: MainProps) {
                 bearing: 0,
                 transitionDuration: 500,
                 transitionInterpolator: new FlyToInterpolator()
-            };
-    
-            Map.functions.setMapViewState(newViewState);
-        } else 
-            console.log('Error sending API request');
-    };
+            }
+
+            Map.functions.setMapViewState(newViewState)
+        } else
+            console.log('Error sending API request')
+    }
 
     return (
         <>
@@ -126,7 +126,7 @@ export default function Main({ title }: MainProps) {
                 </StyledPaper>
             </Stack>
         </>
-    );
+    )
 
 }
 
@@ -136,4 +136,4 @@ const StyledPaper = styled(Paper)({
     padding: '10px',
     zIndex: 5000,
     opacity: 1
-});
+})

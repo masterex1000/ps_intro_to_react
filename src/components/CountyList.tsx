@@ -1,59 +1,61 @@
-import { Box, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
+import { Box, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material"
 import { CountyRecord } from "../library/DataSources.ts"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 interface CountyListProps {
     counties: CountyRecord[],
-    onSelectCounty : (name : string) => void
+    onSelectCounty: (name: string) => void
 };
 
 export default function CountyList({ counties, onSelectCounty }: CountyListProps) {
 
-    const [countySearch, setCountySearch] = useState("");
-    const [filteredCounties, setFilteredCounties] = useState([] as CountyRecord[]);
+    const [countySearch, setCountySearch] = useState("")
+    const [filteredCounties, setFilteredCounties] = useState([] as CountyRecord[])
 
     useEffect(() => {
 
         if (countySearch.length === 0) {
-            setFilteredCounties(counties);
-            return;
+            setFilteredCounties(counties)
+            return
         }
 
         const filteredList = counties.filter(
             (entry) => entry.name.toLowerCase().includes(
                 countySearch.toLowerCase()
-                )
-            );
+            )
+        )
 
-        setFilteredCounties(filteredList);
+        setFilteredCounties(filteredList)
 
-    }, [counties, countySearch]);
+    }, [counties, countySearch])
 
     useEffect(() => {
-        setCountySearch(""); // Clear search on new county list
-    }, [counties]);
+        setCountySearch("") // Clear search on new county list
+    }, [counties])
 
     const handleCountyClick = (
+        // eslint-disable-next-line no-undef
         _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-        name : string,
+        name: string,
     ) => {
-        onSelectCounty(name);
-    };
+        onSelectCounty(name)
+    }
 
     return (
         <>
             <Box
                 sx={{
                     display: counties.length === 0 ? 'none' : 'block'
-            }}>
+                }}>
                 <TextField
                     id="standard-search"
                     label="Search field"
                     type="search"
                     variant="standard"
                     value={countySearch}
+                    // eslint-disable-next-line no-undef
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setCountySearch(event.target.value);
+                        setCountySearch(event.target.value)
                     }}
                 />
                 <List
@@ -78,7 +80,7 @@ export default function CountyList({ counties, onSelectCounty }: CountyListProps
                 sx={{
                     display: counties.length === 0 ? 'block' : 'none'
                 }}> -- Select State -- </Typography>
-            
+
         </>
-    );
+    )
 }

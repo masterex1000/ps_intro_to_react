@@ -1,12 +1,12 @@
-import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { CountyData } from '../library/DataSources';
+import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { CountyData } from '../library/DataSources'
 
-const vowelList = ['A', 'E', 'I', 'O', 'U'];
+const vowelList = ['A', 'E', 'I', 'O', 'U']
 
-const data = generateStartLetterData();
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const data = generateStartLetterData()
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]
 
-const RADIAN = Math.PI / 180;
+const RADIAN = Math.PI / 180
 
 const renderCustomizedLabel = ({
     cx,
@@ -17,9 +17,9 @@ const renderCustomizedLabel = ({
     percent,
     index
 }: any) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+    const x = cx + radius * Math.cos(-midAngle * RADIAN)
+    const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
     return (
         <text
@@ -31,8 +31,8 @@ const renderCustomizedLabel = ({
         >
             {`${data[index].name} ${(percent * 100).toFixed(0)}%`}
         </text>
-    );
-};
+    )
+}
 
 export default function ExampleLineChart() {
 
@@ -55,23 +55,23 @@ export default function ExampleLineChart() {
                 </Pie>
             </PieChart>
         </ResponsiveContainer>
-    );
+    )
 }
 
 
 function generateStartLetterData() {
-    let startWithVowel = 0;
-    let startWithConsonant = 0;
+    let startWithVowel = 0
+    let startWithConsonant = 0
 
-    for (let value of CountyData) {
+    for (const value of CountyData) {
         if (vowelList.indexOf(value.name.charAt(0).toUpperCase()) != -1)
-            startWithVowel++;
+            startWithVowel++
         else
-            startWithConsonant++;
+            startWithConsonant++
     }
 
     return [
         { name: 'Vowels', value: startWithVowel },
         { name: 'Consonant', value: startWithConsonant }
-    ];
+    ]
 }

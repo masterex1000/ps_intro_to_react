@@ -1,7 +1,7 @@
-import { Box, Modal, Typography } from "@mui/material";
-import StartLetterPieChart from "./StartLetterPieChart";
-import CountyLineChart from "./CountyLineChart";
-import CountyHistogramChart from "./CountyHistogramChart";
+import { Box, Modal, Typography } from "@mui/material"
+import StartLetterPieChart from "./StartLetterPieChart"
+import CountyLineChart from "./CountyLineChart"
+import CountyHistogramChart from "./CountyHistogramChart"
 
 interface ChartModelProps {
     open: boolean,
@@ -9,7 +9,7 @@ interface ChartModelProps {
 }
 
 const style = {
-    position: 'absolute' as 'absolute',
+    position: 'absolute' as const,
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -20,7 +20,7 @@ const style = {
     p: 4,
     overflow: 'auto',
     maxHeight: 800
-};
+}
 
 export default function ChartsModal({ open, onClose }: ChartModelProps) {
 
@@ -31,13 +31,13 @@ export default function ChartsModal({ open, onClose }: ChartModelProps) {
             onClose={onClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            sx={{ "z-index":5001 }}
+            sx={{ "z-index": 5001 }}
         >
             <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Chart Examples
                 </Typography>
-                <StartLetterPieChart/>
+                <StartLetterPieChart />
                 <CountyLineChart></CountyLineChart>
                 <CountyHistogramChart></CountyHistogramChart>
             </Box>

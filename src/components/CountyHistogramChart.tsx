@@ -1,7 +1,7 @@
-import { ResponsiveContainer, CartesianGrid, Legend, Tooltip, XAxis, YAxis, BarChart, Bar, Rectangle } from 'recharts';
-import { CountyData } from '../library/DataSources';
+import { ResponsiveContainer, CartesianGrid, Legend, Tooltip, XAxis, YAxis, BarChart, Bar, Rectangle } from 'recharts'
+import { CountyData } from '../library/DataSources'
 
-const data = generateLetterChartData();
+const data = generateLetterChartData()
 
 export default function CountyHistogramChart() {
 
@@ -26,36 +26,36 @@ export default function CountyHistogramChart() {
                 <Bar dataKey="amt" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
             </BarChart>
         </ResponsiveContainer >
-    );
+    )
 }
 
 
-function generateLetterChartData() {    
-    let data = [];
-    const lengths = collectNameLengthTotals();
+function generateLetterChartData() {
+    const data = []
+    const lengths = collectNameLengthTotals()
 
-    for (let length in lengths) {
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
+    for (const length in lengths) {
         data.push({
             name: length,
             amt: lengths[length]
-        });
+        })
     }
-    
-    return data;
+
+    return data
 }
 
 function collectNameLengthTotals() {
-    let lengths = [];
+    const lengths = []
 
-
-    for (let county of CountyData) {
-        let length = county.name.length;
+    for (const county of CountyData) {
+        const length = county.name.length
 
         if (length in lengths)
-            lengths[length] += 1;
+            lengths[length] += 1
         else
-            lengths[length] = 1;
+            lengths[length] = 1
     }
 
-    return lengths;
+    return lengths
 }
