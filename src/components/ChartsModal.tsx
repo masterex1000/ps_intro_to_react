@@ -1,6 +1,7 @@
 import { Box, Modal, Typography } from "@mui/material";
 import StartLetterPieChart from "./StartLetterPieChart";
 import CountyLineChart from "./CountyLineChart";
+import CountyHistogramChart from "./CountyHistogramChart";
 
 interface ChartModelProps {
     open: boolean,
@@ -17,6 +18,8 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    overflow: 'auto',
+    maxHeight: 800
 };
 
 export default function ChartsModal({ open, onClose }: ChartModelProps) {
@@ -36,6 +39,7 @@ export default function ChartsModal({ open, onClose }: ChartModelProps) {
                 </Typography>
                 <StartLetterPieChart/>
                 <CountyLineChart></CountyLineChart>
+                <CountyHistogramChart></CountyHistogramChart>
             </Box>
 
         </Modal>
