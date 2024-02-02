@@ -21,7 +21,7 @@ export default function StateList({ stateList, setSelectedState } : StateListPro
             setSelectedState("");
             return;
         }
-        
+
         setSelectedIndex(index);
         setSelectedState(stateList[index].name);
     };

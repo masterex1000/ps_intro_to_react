@@ -1,5 +1,5 @@
 import { Box, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
-import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
+import { CountyRecord } from "../library/DataSources.ts"
 import { useEffect, useState } from "react";
 
 interface CountyListProps {

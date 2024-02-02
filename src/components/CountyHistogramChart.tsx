@@ -1,13 +1,9 @@
-import { ResponsiveContainer, LineChart, CartesianGrid, Legend, Line, Tooltip, XAxis, YAxis, BarChart, Bar, Rectangle } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, Legend, Tooltip, XAxis, YAxis, BarChart, Bar, Rectangle } from 'recharts';
 import { CountyData } from '../library/DataSources';
 
 const data = generateLetterChartData();
 
 export default function CountyHistogramChart() {
-
-    // return (
-    //     <></>
-    // );
 
     return (
         <ResponsiveContainer width='100%' height={350}>
@@ -34,7 +30,21 @@ export default function CountyHistogramChart() {
 }
 
 
-function generateLetterChartData() {
+function generateLetterChartData() {    
+    let data = [];
+    const lengths = collectNameLengthTotals();
+
+    for (let length in lengths) {
+        data.push({
+            name: length,
+            amt: lengths[length]
+        });
+    }
+    
+    return data;
+}
+
+function collectNameLengthTotals() {
     let lengths = [];
 
 
@@ -47,15 +57,5 @@ function generateLetterChartData() {
             lengths[length] = 1;
     }
 
-    let data = [];
-
-    for (let length in lengths) {
-
-        data.push({
-            name: length,
-            amt: lengths[length]
-        });
-    }
-    
-    return data;
+    return lengths;
 }

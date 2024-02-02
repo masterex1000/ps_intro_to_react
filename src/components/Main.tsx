@@ -63,8 +63,6 @@ export default function Main({ title }: MainProps) {
          * Call to setCountyList() with the list of associated counties
          */
         
-        // TODO: Probably pre-compute the state and county lookup lists
-        
         const stateRecord = StateData.find((state) => state.name.localeCompare(selectedState) == 0);
 
         if(!stateRecord) {
@@ -94,8 +92,6 @@ export default function Main({ title }: MainProps) {
                 (accumulator, current) => accumulator.confidence >= current.confidence ? accumulator : current
             )
 
-            // console.log(highestConfidence);
-
             const newViewState = {
                 longitude: highestConfidence.geometry.lng,
                 latitude: highestConfidence.geometry.lat,
@@ -114,6 +110,7 @@ export default function Main({ title }: MainProps) {
     return (
         <>
             <DeckMap Map={Map} />
+            <ChartsModal open={modalOpen} onClose={() => handleCloseChartModal()}></ChartsModal>
             <Stack direction='column' alignItems='left'>
                 <StyledPaper elevation={3}>
                     <Stack direction='column' alignItems='center' spacing={2}>
@@ -121,10 +118,6 @@ export default function Main({ title }: MainProps) {
                         <Button onClick={() => handleOpenChartModal()} variant='outlined'>View Charts</Button>
                     </Stack>
                 </StyledPaper>
-                {/* Uncomment below to see a chart example */}
-                {/* <Paper className={classes.root} elevation={3}>
-                    <ExampleLineChart/>
-                </Paper> */}
                 <StyledPaper elevation={3}>
                     <StateList stateList={StateData} setSelectedState={setSelectedState}></StateList>
                 </StyledPaper>
@@ -132,7 +125,6 @@ export default function Main({ title }: MainProps) {
                     <CountyList counties={countyList} onSelectCounty={(county) => handleCountySelection(county)}></CountyList>
                 </StyledPaper>
             </Stack>
-            <ChartsModal open={modalOpen} onClose={() => handleCloseChartModal()}></ChartsModal>
         </>
     );
 
