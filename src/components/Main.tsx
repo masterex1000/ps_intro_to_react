@@ -39,10 +39,9 @@ import { UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
 import { Button } from "@mui/material";
 import ExampleLineChart from "./ExampleLineChart";
-import StateList from "./StateList";
-
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
 import CountyList from "./CountyList.tsx";
+import StateList from "./StateList";
 
 interface MainProps {
     title: string

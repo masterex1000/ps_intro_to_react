@@ -1,4 +1,4 @@
-import { List, ListItemButton, ListItemText, TextField } from "@mui/material";
+import { Box, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
 import { useEffect, useState } from "react";
 
@@ -26,36 +26,51 @@ export default function CountyList({ counties }: CountyListProps) {
 
         setFilteredCounties(filteredList);
 
-    }, [counties, countySearch])
+    }, [counties, countySearch]);
+
+    useEffect(() => {
+        setCountySearch(""); // Clear search on new county list
+    }, [counties]);
 
     return (
         <>
-            <TextField
-                id="standard-search"
-                label="Search field"
-                type="search"
-                variant="standard"
-                value={countySearch}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setCountySearch(event.target.value);
-                }}
-            />
-            <List
+            <Box
                 sx={{
-                    width: '100%',
-                    // maxWidth: 360,
-                    bgColor: 'background.paper',
-                    position: 'relative',
-                    overflow: 'auto',
-                    maxHeight: 300,
-                    '& ul': { padding: 0 }
-                }}>
-                {filteredCounties.map((county) => (
-                    <ListItemButton key={county.name}>
-                        <ListItemText primary={county.name}></ListItemText>
-                    </ListItemButton>
-                ))}
-            </List>
+                    display: counties.length === 0 ? 'none' : 'block'
+            }}>
+                <TextField
+                    id="standard-search"
+                    label="Search field"
+                    type="search"
+                    variant="standard"
+                    value={countySearch}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setCountySearch(event.target.value);
+                    }}
+                />
+                <List
+                    sx={{
+                        width: '100%',
+                        // maxWidth: 360,
+                        bgColor: 'background.paper',
+                        position: 'relative',
+                        overflow: 'auto',
+                        maxHeight: 300,
+                        '& ul': { padding: 0 }
+                    }}>
+                    {filteredCounties.map((county) => (
+                        <ListItemButton key={county.name}>
+                            <ListItemText primary={county.name}></ListItemText>
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Box>
+            <Typography
+                align="center"
+                sx={{
+                    display: counties.length === 0 ? 'block' : 'none'
+                }}> -- Select State -- </Typography>
+            
         </>
     );
 }
