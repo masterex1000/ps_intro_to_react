@@ -1,5 +1,6 @@
 import { List, ListItemButton, ListItemText } from "@mui/material";
 import { StateRecord } from "../library/DataSources";
+import React from "react";
 
 
 interface StateListProps {
@@ -8,6 +9,23 @@ interface StateListProps {
 };
 
 export default function StateList({ stateList, setSelectedState } : StateListProps ) {
+
+    const [selectedIndex, setSelectedIndex] = React.useState(-1);
+
+    const handleListItemClick = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        index: number,
+    ) => {
+        if(selectedIndex === index) {
+            setSelectedIndex(-1);
+            setSelectedState("");
+            return;
+        }
+        
+        setSelectedIndex(index);
+        setSelectedState(stateList[index].name);
+    };
+
     return (
         <List
             sx={{
@@ -19,8 +37,12 @@ export default function StateList({ stateList, setSelectedState } : StateListPro
                 maxHeight: 300,
                 '& ul': { padding: 0 }
             }}>
-            {stateList.map((state) => (
-                <ListItemButton key={state.name} onClick={() => setSelectedState(state.name)}>
+            {stateList.map((state, index) => (
+                <ListItemButton
+                    key={state.name} 
+                    selected={selectedIndex === index} 
+                    onClick={(event) => handleListItemClick(event, index)}>
+
                     <ListItemText primary={state.name}></ListItemText>
                 </ListItemButton>
             ))}
