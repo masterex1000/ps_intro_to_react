@@ -39,7 +39,6 @@ import { GeolookupObject, UseApi } from "../hooks/UseApi";
 import DeckMap from "./DeckMap";
 import { FlyToInterpolator } from '@deck.gl/core/typed';
 import { Button } from "@mui/material";
-import ExampleLineChart from "./ExampleLineChart";
 import { StateData, CountyData, CountyRecord } from "../library/DataSources.ts"
 import CountyList from "./CountyList.tsx";
 import StateList from "./StateList";
@@ -80,25 +79,6 @@ export default function Main({ title }: MainProps) {
         setCountyList(countyList);
 
     }, [selectedState]);
-
-    /**
-     * This is the function that connects to the online API and retrieves information associated
-     *      with a state/county. Included in that information is the coordinates. Currently
-     *      state/county are hard-coded to 'Larimer', and 'Colorado'. 
-     * 
-     * This function logs to the console the return from the API. Open the inspection pane in your
-     *      browser to see what is printed in the console. You can usually do this by right clicking
-     *      on the page and selection 'inspect', then going to the console tab.
-     * 
-     * We'll talk about what this function is doing during the meeting.
-     */
-    const sendCoordinatesRequest = async () => {
-        const response = await Api.functions.sendRequest('Larimer', 'Colorado');
-        if (response) {
-            console.log({ response });
-        }
-        else console.log('Error sending API request');
-    }
 
     const handleOpenChartModal = () => setModalOpen(true);
     const handleCloseChartModal = () => setModalOpen(false);

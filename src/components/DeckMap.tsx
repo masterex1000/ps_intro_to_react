@@ -35,7 +35,7 @@ END OF TERMS AND CONDITIONS
 import DeckGL from '@deck.gl/react/typed';
 import ReactMapGL from 'react-map-gl';
 import { BASEMAP } from '@deck.gl/carto/typed';
-import { DeckMapHook, ViewState } from '../hooks/UseDeckMap';
+import { DeckMapHook } from '../hooks/UseDeckMap';
 import MapLibreGL from 'maplibre-gl';
 
 interface DeckMapProps {

@@ -1,12 +1,5 @@
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { CountyData, StateData } from '../library/DataSources';
-
-// const data = [
-//     { name: 'Group A', value: 400 },
-//     { name: 'Group B', value: 300 },
-//     { name: 'Group C', value: 300 },
-//     { name: 'Group D', value: 200 },
-//   ];
+import { CountyData } from '../library/DataSources';
 
 const vowelList = ['A', 'E', 'I', 'O', 'U'];
 
